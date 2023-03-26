@@ -2,20 +2,23 @@ from itertools import permutations
 from typing import NamedTuple
 import unittest
 
-CostMatrix = list[tuple[int, ...]]
-AssignedTasks = list[tuple[int, ...]]
+# Agent id is the index of the assignment.
+Assignment = tuple[int]
 
 class Alternative(NamedTuple):
     cost: int
-    assignment: tuple[int]
+    assignment: Assignment
 
-def assignment(cost_matrix: CostMatrix) -> AssignedTasks:
+CostMatrix = list[tuple[int, ...]]
+Result = list[tuple[int]]
+
+def assignment(cost_matrix: CostMatrix) -> Result:
     perms = permutations(task_numbers(cost_matrix))
     alternatives = get_alternatives(cost_matrix, perms)
     return find_assignments(alternatives)
 
 
-def find_assignments(alternatives: list[Alternative]):
+def find_assignments(alternatives: list[Alternative]) -> list[Assignment]:
     return [
         alternative.assignment for alternative in alternatives
         if alternative.cost == lowest_cost(alternatives)
