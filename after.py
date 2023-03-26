@@ -2,14 +2,17 @@ from itertools import permutations
 import unittest
 
 def assignment(cost: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
-    n_tasks = len(cost)
-    perms = permutations(range(n_tasks))
-    alt = [
+    perms = permutations(range(number_of_tasks(cost)))
+    alternatives = [
         (sum(cost[task][agent] for agent, task in enumerate(perm)), perm)
         for perm in perms
     ]
-    m = min(alt)[0]
-    return [ans for s, ans in alt if s == m]
+    m = min(alternatives)[0]
+    return [ans for s, ans in alternatives if s == m]
+
+
+def number_of_tasks(cost):
+    return len(cost)
 
 
 class TestAssignment(unittest.TestCase):
