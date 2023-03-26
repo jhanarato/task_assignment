@@ -12,7 +12,11 @@ def assignment(cost: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
 
 
 def task_agent_permutations(cost: list[tuple[int, ...]]):
-    return permutations(range(number_of_tasks(cost)))
+    return permutations(task_numbers(cost))
+
+
+def task_numbers(cost):
+    return range(number_of_tasks(cost))
 
 
 def number_of_tasks(cost: list[tuple[int, ...]]) -> int:
