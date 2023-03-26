@@ -3,8 +3,9 @@ from itertools import permutations
 import unittest
 
 CostMatrix = list[tuple[int, ...]]
+AssignedTasks = list[tuple[int, ...]]
 
-def assignment(cost_matrix: CostMatrix) -> list[tuple[int, ...]]:
+def assignment(cost_matrix: CostMatrix) -> AssignedTasks:
     perms = permutations(task_numbers(cost_matrix))
 
     alternatives = [
@@ -12,7 +13,7 @@ def assignment(cost_matrix: CostMatrix) -> list[tuple[int, ...]]:
         for perm in perms
     ]
 
-    return [answer for cost, answer in alternatives if cost == lowest_cost(alternatives)]
+    return [result for cost, result in alternatives if cost == lowest_cost(alternatives)]
 
 
 def lowest_cost(alternatives) -> int:
