@@ -16,7 +16,10 @@ def assignment(cost_matrix: CostMatrix) -> list[tuple[int, ...]]:
 
 
 def cost_of_permutation(cost_matrix: CostMatrix, permutation: tuple[int]) -> int:
-    return sum(cost_matrix[task][agent] for agent, task in enumerate(permutation))
+    return sum(
+        cost_matrix[task][agent]
+        for agent, task in enumerate(permutation)
+    )
 
 
 def task_numbers(cost_matrix: CostMatrix):
