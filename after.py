@@ -1,9 +1,13 @@
 from itertools import permutations
-
+from typing import NamedTuple
 import unittest
 
 CostMatrix = list[tuple[int, ...]]
 AssignedTasks = list[tuple[int, ...]]
+
+class Alternative(NamedTuple):
+    cost: int
+    assignment: tuple[int]
 
 def assignment(cost_matrix: CostMatrix) -> AssignedTasks:
     perms = permutations(task_numbers(cost_matrix))
@@ -18,10 +22,9 @@ def find_assignments(alternatives):
     ]
 
 
-def get_alternatives(cost_matrix, perms):
+def get_alternatives(cost_matrix, perms) -> list[Alternative]:
     return [
-        (cost_of_permutation(cost_matrix, perm), perm)
-        for perm in perms
+        Alternative(cost_of_permutation(cost_matrix, perm), perm) for perm in perms
     ]
 
 
