@@ -1,10 +1,12 @@
 from itertools import permutations
+
 import unittest
 
 CostMatrix = list[tuple[int, ...]]
 
 def assignment(cost_matrix: CostMatrix) -> list[tuple[int, ...]]:
-    perms = task_agent_permutations(cost_matrix)
+    perms = permutations(task_numbers(cost_matrix))
+
     alternatives = [
         (sum(cost_matrix[task][agent] for agent, task in enumerate(perm)), perm)
         for perm in perms
@@ -13,16 +15,8 @@ def assignment(cost_matrix: CostMatrix) -> list[tuple[int, ...]]:
     return [ans for s, ans in alternatives if s == m]
 
 
-def task_agent_permutations(cost_matrix: CostMatrix):
-    return permutations(task_numbers(cost_matrix))
-
-
 def task_numbers(cost_matrix: CostMatrix):
-    return range(number_of_tasks(cost_matrix))
-
-
-def number_of_tasks(cost_matrix: CostMatrix) -> int:
-    return len(cost_matrix)
+    return range(len(cost_matrix))
 
 
 class TestAssignment(unittest.TestCase):
