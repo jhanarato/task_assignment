@@ -17,8 +17,8 @@ def assignment(cost_matrix: CostMatrix) -> AssignedTasks:
 
 def find_assignments(alternatives: list[Alternative]):
     return [
-        result for cost, result in alternatives
-        if cost == lowest_cost(alternatives)
+        alternative.assignment for alternative in alternatives
+        if alternative.cost == lowest_cost(alternatives)
     ]
 
 
