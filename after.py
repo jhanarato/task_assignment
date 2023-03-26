@@ -13,8 +13,8 @@ CostMatrix = list[tuple[int, ...]]
 Result = list[tuple[int]]
 
 def assignment(cost_matrix: CostMatrix) -> Result:
-    return find_assignments(
-        alternatives(
+    return min_cost_assignments(
+        cost_assignments(
             cost_matrix,
             permutations(
                 task_numbers(cost_matrix)
@@ -23,14 +23,14 @@ def assignment(cost_matrix: CostMatrix) -> Result:
     )
 
 
-def find_assignments(alternatives: list[Alternative]) -> list[Assignment]:
+def min_cost_assignments(alternatives: list[Alternative]) -> list[Assignment]:
     return [
         alternative.assignment for alternative in alternatives
         if alternative.cost == lowest_cost(alternatives)
     ]
 
 
-def alternatives(cost_matrix, perms) -> list[Alternative]:
+def cost_assignments(cost_matrix, perms) -> list[Alternative]:
     return [
         Alternative(cost_of_permutation(cost_matrix, perm), perm) for perm in perms
     ]
