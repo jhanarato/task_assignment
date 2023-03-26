@@ -11,8 +11,13 @@ def assignment(cost_matrix: CostMatrix) -> list[tuple[int, ...]]:
         (cost_of_permutation(cost_matrix, perm), perm)
         for perm in perms
     ]
-    m = min(alternatives)[0]
-    return [ans for s, ans in alternatives if s == m]
+
+    return [answer for cost, answer in alternatives if cost == lowest_cost(alternatives)]
+
+
+def lowest_cost(alternatives) -> int:
+    # This could be cached.
+    return min(alternatives)[0]
 
 
 def cost_of_permutation(cost_matrix: CostMatrix, permutation: tuple[int]) -> int:
