@@ -11,7 +11,7 @@ def assignment(cost: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
     return [ans for s, ans in alternatives if s == m]
 
 
-def number_of_tasks(cost):
+def number_of_tasks(cost: list[tuple[int, ...]]) -> int:
     return len(cost)
 
 
