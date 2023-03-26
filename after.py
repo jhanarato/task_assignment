@@ -13,9 +13,14 @@ CostMatrix = list[tuple[int, ...]]
 Result = list[tuple[int]]
 
 def assignment(cost_matrix: CostMatrix) -> Result:
-    perms = permutations(task_numbers(cost_matrix))
-    alternatives = get_alternatives(cost_matrix, perms)
-    return find_assignments(alternatives)
+    return find_assignments(
+        alternatives(
+            cost_matrix,
+            permutations(
+                task_numbers(cost_matrix)
+            )
+        )
+    )
 
 
 def find_assignments(alternatives: list[Alternative]) -> list[Assignment]:
@@ -25,7 +30,7 @@ def find_assignments(alternatives: list[Alternative]) -> list[Assignment]:
     ]
 
 
-def get_alternatives(cost_matrix, perms) -> list[Alternative]:
+def alternatives(cost_matrix, perms) -> list[Alternative]:
     return [
         Alternative(cost_of_permutation(cost_matrix, perm), perm) for perm in perms
     ]
