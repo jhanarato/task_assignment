@@ -1,26 +1,26 @@
 from itertools import permutations
 import unittest
 
-def assignment(cost: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
-    perms = task_agent_permutations(cost)
+def assignment(cost_matrix: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
+    perms = task_agent_permutations(cost_matrix)
     alternatives = [
-        (sum(cost[task][agent] for agent, task in enumerate(perm)), perm)
+        (sum(cost_matrix[task][agent] for agent, task in enumerate(perm)), perm)
         for perm in perms
     ]
     m = min(alternatives)[0]
     return [ans for s, ans in alternatives if s == m]
 
 
-def task_agent_permutations(cost: list[tuple[int, ...]]):
-    return permutations(task_numbers(cost))
+def task_agent_permutations(cost_matrix: list[tuple[int, ...]]):
+    return permutations(task_numbers(cost_matrix))
 
 
-def task_numbers(cost):
-    return range(number_of_tasks(cost))
+def task_numbers(cost_matrix):
+    return range(number_of_tasks(cost_matrix))
 
 
-def number_of_tasks(cost: list[tuple[int, ...]]) -> int:
-    return len(cost)
+def number_of_tasks(cost_matrix: list[tuple[int, ...]]) -> int:
+    return len(cost_matrix)
 
 
 class TestAssignment(unittest.TestCase):
