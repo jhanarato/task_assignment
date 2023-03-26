@@ -8,11 +8,15 @@ def assignment(cost_matrix: CostMatrix) -> list[tuple[int, ...]]:
     perms = permutations(task_numbers(cost_matrix))
 
     alternatives = [
-        (sum(cost_matrix[task][agent] for agent, task in enumerate(perm)), perm)
+        (cost_of_permutation(cost_matrix, perm), perm)
         for perm in perms
     ]
     m = min(alternatives)[0]
     return [ans for s, ans in alternatives if s == m]
+
+
+def cost_of_permutation(cost_matrix: CostMatrix, permutation: tuple[int]) -> int:
+    return sum(cost_matrix[task][agent] for agent, task in enumerate(permutation))
 
 
 def task_numbers(cost_matrix: CostMatrix):
