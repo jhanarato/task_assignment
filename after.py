@@ -2,39 +2,38 @@ import itertools
 import typing
 import unittest
 
-# Agent id is the index of the assignment.
+CostRow = tuple[int, ...]
+CostMatrix = list[CostRow]
 Assignment = tuple[int]
+Result = list[Assignment]
 
 class Alternative(typing.NamedTuple):
     cost: int
     assignment: Assignment
 
-CostMatrix = list[tuple[int, ...]]
-Result = list[tuple[int]]
-
 def assignment(cost_matrix: CostMatrix) -> Result:
-    return min_cost_assignments(
-        cost_assignments(
+    return cheapest_assignments(
+        priced_assignments(
             cost_matrix,
-            all_task_arrangements(cost_matrix)
+            all_assignments(cost_matrix)
         )
     )
 
 
-def all_task_arrangements(cost_matrix: CostMatrix) -> typing.Iterable[tuple[int]]:
+def all_assignments(cost_matrix: CostMatrix) -> typing.Iterable[Assignment]:
     yield from itertools.permutations(
         task_numbers(cost_matrix)
     )
 
 
-def min_cost_assignments(alternatives: list[Alternative]) -> list[Assignment]:
+def cheapest_assignments(alternatives: list[Alternative]) -> list[Assignment]:
     return [
         alternative.assignment for alternative in alternatives
         if alternative.cost == lowest_cost(alternatives)
     ]
 
 
-def cost_assignments(cost_matrix, perms) -> list[Alternative]:
+def priced_assignments(cost_matrix, perms) -> list[Alternative]:
     return [
         Alternative(cost_of_permutation(cost_matrix, perm), perm) for perm in perms
     ]
