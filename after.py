@@ -1,12 +1,12 @@
 import itertools
-import typing
+from typing import Iterable, NamedTuple
 import unittest
 
 CostRow = tuple[int, ...]
 CostMatrix = list[CostRow]
 Assignment = tuple[int]
 
-class Alternative(typing.NamedTuple):
+class Alternative(NamedTuple):
     cost: int
     assignment: Assignment
 
@@ -14,15 +14,16 @@ def assignment(cost_matrix: CostMatrix) -> list[Assignment]:
     return cheapest_assignments(
         priced_assignments(
             cost_matrix,
-            all_assignments(cost_matrix)
+            task_permutations(cost_matrix)
         )
     )
 
 
-def all_assignments(cost_matrix: CostMatrix) -> typing.Iterable[Assignment]:
-    yield from itertools.permutations(
-        task_numbers(cost_matrix)
-    )
+def priced_assignments(cost_matrix: CostMatrix, assignments_to_price: Iterable[Assignment]) -> list[Alternative]:
+    return [
+        Alternative(cost_of_permutation(cost_matrix, assignment_to_price), assignment_to_price)
+        for assignment_to_price in assignments_to_price
+    ]
 
 
 def cheapest_assignments(alternatives: list[Alternative]) -> list[Assignment]:
@@ -32,15 +33,10 @@ def cheapest_assignments(alternatives: list[Alternative]) -> list[Assignment]:
     ]
 
 
-def priced_assignments(cost_matrix, perms) -> list[Alternative]:
-    return [
-        Alternative(cost_of_permutation(cost_matrix, perm), perm) for perm in perms
-    ]
-
-
-def lowest_cost(alternatives) -> int:
-    # This could be cached.
-    return min(alternatives)[0]
+def task_permutations(cost_matrix: CostMatrix) -> Iterable[Assignment]:
+    yield from itertools.permutations(
+        range(len(cost_matrix))
+    )
 
 
 def cost_of_permutation(cost_matrix: CostMatrix, permutation: tuple[int]) -> int:
@@ -50,8 +46,9 @@ def cost_of_permutation(cost_matrix: CostMatrix, permutation: tuple[int]) -> int
     )
 
 
-def task_numbers(cost_matrix: CostMatrix):
-    return range(len(cost_matrix))
+def lowest_cost(alternatives: list[Alternative]) -> int:
+    # This could be cached.
+    return min(alternatives)[0]
 
 
 class TestAssignment(unittest.TestCase):
