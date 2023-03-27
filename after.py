@@ -27,9 +27,10 @@ def priced_assignments(cost_matrix: CostMatrix, assignments_to_price: Iterable[A
 
 
 def cheapest_assignments(alternatives: list[Alternative]) -> list[Assignment]:
+    lowest_cost = min(alternatives)[0]
     return [
         alternative.assignment for alternative in alternatives
-        if alternative.cost == lowest_cost(alternatives)
+        if alternative.cost == lowest_cost
     ]
 
 
@@ -44,11 +45,6 @@ def cost_of_permutation(cost_matrix: CostMatrix, permutation: tuple[int]) -> int
         cost_matrix[task][agent]
         for agent, task in enumerate(permutation)
     )
-
-
-def lowest_cost(alternatives: list[Alternative]) -> int:
-    # This could be cached.
-    return min(alternatives)[0]
 
 
 class TestAssignment(unittest.TestCase):
