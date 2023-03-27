@@ -1,11 +1,11 @@
-from itertools import permutations
-from typing import NamedTuple
+import itertools
+import typing
 import unittest
 
 # Agent id is the index of the assignment.
 Assignment = tuple[int]
 
-class Alternative(NamedTuple):
+class Alternative(typing.NamedTuple):
     cost: int
     assignment: Assignment
 
@@ -16,10 +16,14 @@ def assignment(cost_matrix: CostMatrix) -> Result:
     return min_cost_assignments(
         cost_assignments(
             cost_matrix,
-            permutations(
-                task_numbers(cost_matrix)
-            )
+            all_task_arrangements(cost_matrix)
         )
+    )
+
+
+def all_task_arrangements(cost_matrix: CostMatrix) -> typing.Iterable[tuple[int]]:
+    yield from itertools.permutations(
+        task_numbers(cost_matrix)
     )
 
 
