@@ -16,6 +16,12 @@ def assignment(cost_matrix: CostMatrix) -> list[Assignment]:
     return lowest_cost(with_cost)
 
 
+def all_possible(cost_matrix: CostMatrix) -> Iterable[Assignment]:
+    yield from itertools.permutations(
+        range(len(cost_matrix))
+    )
+
+
 def add_cost(cost_matrix: CostMatrix, assignments_to_price: Iterable[Assignment]) -> list[CostedAssignment]:
     return [
         CostedAssignment(cost_of_assignment(cost_matrix, assignment_to_price), assignment_to_price)
@@ -23,25 +29,19 @@ def add_cost(cost_matrix: CostMatrix, assignments_to_price: Iterable[Assignment]
     ]
 
 
-def lowest_cost(alternatives: list[CostedAssignment]) -> list[Assignment]:
-    lowest_cost = min(alternatives).cost
-    return [
-        alternative.assignment for alternative in alternatives
-        if alternative.cost == lowest_cost
-    ]
-
-
-def all_possible(cost_matrix: CostMatrix) -> Iterable[Assignment]:
-    yield from itertools.permutations(
-        range(len(cost_matrix))
-    )
-
-
 def cost_of_assignment(cost_matrix: CostMatrix, an_assignment: Assignment) -> int:
     return sum(
         cost_matrix[task][agent]
         for agent, task in enumerate(an_assignment)
     )
+
+
+def lowest_cost(alternatives: list[CostedAssignment]) -> list[Assignment]:
+    cost = min(alternatives).cost
+    return [
+        alternative.assignment for alternative in alternatives
+        if alternative.cost == cost
+    ]
 
 
 class TestAssignment(unittest.TestCase):
