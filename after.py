@@ -12,11 +12,11 @@ class CostedAssignment(NamedTuple):
 
 def assignment(cost_matrix: CostMatrix) -> list[Assignment]:
     assignments = all_possible(cost_matrix)
-    with_cost = costed(cost_matrix, assignments)
+    with_cost = add_cost(cost_matrix, assignments)
     return lowest_cost(with_cost)
 
 
-def costed(cost_matrix: CostMatrix, assignments_to_price: Iterable[Assignment]) -> list[CostedAssignment]:
+def add_cost(cost_matrix: CostMatrix, assignments_to_price: Iterable[Assignment]) -> list[CostedAssignment]:
     return [
         CostedAssignment(cost_of_assignment(cost_matrix, assignment_to_price), assignment_to_price)
         for assignment_to_price in assignments_to_price
