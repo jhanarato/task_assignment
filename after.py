@@ -24,7 +24,7 @@ def priced_assignments(cost_matrix: CostMatrix, assignments_to_price: Iterable[A
 
 
 def lowest_cost_assignments(alternatives: list[Alternative]) -> list[Assignment]:
-    lowest_cost = min(alternatives)[0]
+    lowest_cost = min(alternatives).cost
     return [
         alternative.assignment for alternative in alternatives
         if alternative.cost == lowest_cost
