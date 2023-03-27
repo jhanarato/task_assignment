@@ -6,24 +6,24 @@ CostRow = tuple[int, ...]
 CostMatrix = list[CostRow]
 Assignment = tuple[int]
 
-class Alternative(NamedTuple):
+class CostedAssignment(NamedTuple):
     cost: int
     assignment: Assignment
 
 def assignment(cost_matrix: CostMatrix) -> list[Assignment]:
-    perms = assignment_permutations(cost_matrix)
-    priced = priced_assignments(cost_matrix, perms)
-    return lowest_cost_assignments(priced)
+    assignments = all_possible(cost_matrix)
+    with_cost = costed(cost_matrix, assignments)
+    return lowest_cost(with_cost)
 
 
-def priced_assignments(cost_matrix: CostMatrix, assignments_to_price: Iterable[Assignment]) -> list[Alternative]:
+def costed(cost_matrix: CostMatrix, assignments_to_price: Iterable[Assignment]) -> list[CostedAssignment]:
     return [
-        Alternative(cost_of_permutation(cost_matrix, assignment_to_price), assignment_to_price)
+        CostedAssignment(cost_of_assignment(cost_matrix, assignment_to_price), assignment_to_price)
         for assignment_to_price in assignments_to_price
     ]
 
 
-def lowest_cost_assignments(alternatives: list[Alternative]) -> list[Assignment]:
+def lowest_cost(alternatives: list[CostedAssignment]) -> list[Assignment]:
     lowest_cost = min(alternatives).cost
     return [
         alternative.assignment for alternative in alternatives
@@ -31,16 +31,16 @@ def lowest_cost_assignments(alternatives: list[Alternative]) -> list[Assignment]
     ]
 
 
-def assignment_permutations(cost_matrix: CostMatrix) -> Iterable[Assignment]:
+def all_possible(cost_matrix: CostMatrix) -> Iterable[Assignment]:
     yield from itertools.permutations(
         range(len(cost_matrix))
     )
 
 
-def cost_of_permutation(cost_matrix: CostMatrix, permutation: tuple[int]) -> int:
+def cost_of_assignment(cost_matrix: CostMatrix, an_assignment: Assignment) -> int:
     return sum(
         cost_matrix[task][agent]
-        for agent, task in enumerate(permutation)
+        for agent, task in enumerate(an_assignment)
     )
 
 
