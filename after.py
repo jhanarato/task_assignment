@@ -11,7 +11,7 @@ class Alternative(NamedTuple):
     assignment: Assignment
 
 def assignment(cost_matrix: CostMatrix) -> list[Assignment]:
-    perms = task_permutations(cost_matrix)
+    perms = assignment_permutations(cost_matrix)
     priced = priced_assignments(cost_matrix, perms)
     return lowest_cost_assignments(priced)
 
@@ -31,7 +31,7 @@ def lowest_cost_assignments(alternatives: list[Alternative]) -> list[Assignment]
     ]
 
 
-def task_permutations(cost_matrix: CostMatrix) -> Iterable[Assignment]:
+def assignment_permutations(cost_matrix: CostMatrix) -> Iterable[Assignment]:
     yield from itertools.permutations(
         range(len(cost_matrix))
     )
