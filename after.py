@@ -5,13 +5,12 @@ import unittest
 CostRow = tuple[int, ...]
 CostMatrix = list[CostRow]
 Assignment = tuple[int]
-Result = list[Assignment]
 
 class Alternative(typing.NamedTuple):
     cost: int
     assignment: Assignment
 
-def assignment(cost_matrix: CostMatrix) -> Result:
+def assignment(cost_matrix: CostMatrix) -> list[Assignment]:
     return cheapest_assignments(
         priced_assignments(
             cost_matrix,
