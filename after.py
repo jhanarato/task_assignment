@@ -13,7 +13,7 @@ class Alternative(NamedTuple):
 def assignment(cost_matrix: CostMatrix) -> list[Assignment]:
     perms = task_permutations(cost_matrix)
     priced = priced_assignments(cost_matrix, perms)
-    return cheapest_assignments(priced)
+    return lowest_cost_assignments(priced)
 
 
 def priced_assignments(cost_matrix: CostMatrix, assignments_to_price: Iterable[Assignment]) -> list[Alternative]:
@@ -23,7 +23,7 @@ def priced_assignments(cost_matrix: CostMatrix, assignments_to_price: Iterable[A
     ]
 
 
-def cheapest_assignments(alternatives: list[Alternative]) -> list[Assignment]:
+def lowest_cost_assignments(alternatives: list[Alternative]) -> list[Assignment]:
     lowest_cost = min(alternatives)[0]
     return [
         alternative.assignment for alternative in alternatives
